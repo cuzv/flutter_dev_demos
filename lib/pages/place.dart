@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../extensions/widgets.dart';
 
-class PlacePage extends StatelessWidget {
-  PlacePage({Key? key}) : super(key: key);
+class PlacePage extends StatefulWidget {
+  const PlacePage({Key? key}) : super(key: key);
+
+  @override
+  State<PlacePage> createState() => _PlacePageState();
+}
+
+class _PlacePageState extends State<PlacePage> {
+  bool _isFavorited = true;
+  int _favoriteCount = 41;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +24,7 @@ class PlacePage extends StatelessWidget {
             "https://raw.githubusercontent.com/flutter/website/master/examples/layout/lakes/step5/images/lake.jpg",
             fit: BoxFit.cover,
           ),
-          _titleSection,
+          _titleSection(),
           _buttonSection(color),
           _textSection,
         ],
@@ -24,26 +32,40 @@ class PlacePage extends StatelessWidget {
     );
   }
 
-  final _titleSection = Row(
-    children: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Oeschinen Lake Campground",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            "Kandersteg, Switzerland",
-            style: TextStyle(color: Colors.grey[500]),
-          ),
-        ],
-      ).expanded(),
-      Icon(Icons.star, color: Colors.red[500]),
-      const Text("41")
-    ],
-  ).margin(const EdgeInsets.all(32));
+  Container _titleSection() {
+    return Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Oeschinen Lake Campground",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Kandersteg, Switzerland",
+              style: TextStyle(color: Colors.grey[500]),
+            ),
+          ],
+        ).expanded(),
+        IconButton(
+            onPressed: () {
+              setState(() {
+                _isFavorited = !_isFavorited;
+                if (_isFavorited) {
+                  _favoriteCount += 1;
+                } else {
+                  _favoriteCount -= 1;
+                }
+              });
+            },
+            icon: Icon(_isFavorited ? Icons.star : Icons.star_border,
+                color: Colors.red[500])),
+        Text("$_favoriteCount")
+      ],
+    ).margin(const EdgeInsets.all(32));
+  }
 
   Row _buttonSection(Color color) {
     return Row(

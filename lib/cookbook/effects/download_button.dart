@@ -75,15 +75,13 @@ class _ExampleCupertinoDownloadButtonState
         width: 96.0,
         child: AnimatedBuilder(
           animation: downloadController,
-          builder: (context, child) {
-            return DownloadButton(
-              status: downloadController.downloadStatus,
-              downloadProgress: downloadController.progress,
-              onDownload: downloadController.startDownload,
-              onCancel: downloadController.stopDownload,
-              onOpen: downloadController.openDownload,
-            );
-          },
+          builder: (context, child) => DownloadButton(
+            status: downloadController.downloadStatus,
+            downloadProgress: downloadController.progress,
+            onDownload: downloadController.startDownload,
+            onCancel: downloadController.stopDownload,
+            onOpen: downloadController.openDownload,
+          ),
         ),
       ),
     );
